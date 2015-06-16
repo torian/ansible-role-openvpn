@@ -1,0 +1,15 @@
+---
+galaxy_info:
+  author: Emiliano Castagnari
+  description: Ansible role for OpenVPN
+  license: Apache
+  min_ansible_version: 1.8
+  platforms:
+  - name: Ubuntu
+    versions:
+    - trusty
+  categories:
+  - system
+  - networking
+
+dependencies: {}

@@ -1,0 +1,12 @@
+---
+
+- name: Tunnel configuration
+  template:
+    src=etc/openvpn/tunnel.ovpn.j2
+    dest={{ openvpn.prefix }}/{{ item.name }}.conf
+    owner='root' 
+    group='root'
+    mode=0640
+  with_items: openvpn.tunnels
+  notify: openvpn restart
+

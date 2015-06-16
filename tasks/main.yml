@@ -1,0 +1,15 @@
+---
+#
+# OpenVPN
+#
+
+- include: install.yml
+
+- include: config.yml
+
+- include: certs.yml
+  tags: ovpn_certs
+
+- include: tunnels.yml
+  tags: ovpn_tunnels
+

@@ -1,0 +1,17 @@
+---
+
+packages:
+  - openvpn
+  - openssl
+  - easy-rsa
+  - iptables-persistent
+
+openvpn:
+
+  prefix: /etc/openvpn
+
+  tunnels: "{{ openvpn_tunnels }}"
+
+  vault: "{{ vault_openvpn }}"
+
+  iptables: "{{ openvpn_iptables }}"

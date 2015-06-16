@@ -1,0 +1,41 @@
+---
+
+- name: SSL directory
+  file:
+    dest="{{openvpn.prefix}}/ssl"
+    state=directory
+    owner='root'
+    group='nogroup'
+    mode='750'
+
+- name: CA certificate
+  copy: 
+    dest="{{openvpn.prefix}}/ssl/ca.crt"
+    content="{{openvpn.vault.certs.ca}}"
+    owner='root'
+    group='nogroup'
+    mode='0640'
+  notify: openvpn restart
+
+- name: DH certificate
+  copy: 
+    dest="{{openvpn.prefix}}/ssl/dh.pem"
+    content="{{openvpn.vault.certs[inventory_hostname].dh}}"
+    owner='root'
+    group='nogroup'
+    mode='0640'
+  when: openvpn.vault.certs[inventory_hostname].dh is defined
+  notify: openvpn restart
+
+- name: Server Certificates
+  copy:
+    dest="{{openvpn.prefix}}/ssl/{{inventory_hostname}}.{{item}}"
+    content="{{openvpn.vault.certs[inventory_hostname][item]}}"
+    owner='root'
+    group='nogroup'
+    mode='0640'
+  notify: openvpn restart
+  with_items:
+    - key
+    - crt
+

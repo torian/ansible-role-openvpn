@@ -1,0 +1,13 @@
+---
+
+- name: Install packages
+  apt: name={{ item }} state=present
+  with_items: packages
+  tags:
+    - install
+
+- name: Enable service
+  service: name=openvpn enabled=yes
+  tags:
+    - install
+

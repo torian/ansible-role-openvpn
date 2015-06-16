@@ -1,0 +1,30 @@
+---
+#
+# OpenVPN: perform configuration
+#
+
+- name: Enable IPv4 Forwarding
+  sysctl:
+    state=present
+    name='net.ipv4.ip_forward'
+    value=1
+    sysctl_set=yes
+    reload=yes
+
+- name: IPTables flush
+  command: "iptables -F {{ item }}"
+  with_items:
+    - 'POSTROUTING -t nat'
+    - 'PREROUTING -t nat'
+    - 'OUTPUT'
+    - 'INPUT'
+    - 'FORWARD'
+
+- name: IPTables rules
+  command: "iptables -t {{ item.table }} {{ item.rule }}"
+  with_items: openvpn.iptables
+  when: openvpn.iptables
+
+- name: IPTables rules persist
+  shell: iptables-save > /etc/iptables/rules.v4
+  
